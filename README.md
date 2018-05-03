@@ -14,7 +14,6 @@ Table of Contents
       * [Environment variables](#environment-variables)
       * [Parameters](#parameters)
       * [Building the image](#building-the-image)
-      * [Contributing](#contributing)
       * [License](#license)
 
 ## Introduction
@@ -140,10 +139,6 @@ Checkout the github repository and then run these commands:
 ```
 $ docker build -t 4nx/mosquitto:1.4.15-r0 .
 ```
-
-## Contributing
-
-[Contribution guidelines](https://github.com/openhab/openhab-docker/blob/master/CONTRIBUTING.md)
 
 ## License
 
