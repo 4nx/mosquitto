@@ -146,5 +146,5 @@ When not explicitly set, files are placed under [![Eclipse license](https://img.
 
 ## Acknowledgement
 
-Inspiration and README.md snipplets came from [openHAB](https://github.com/openhab/openhab-docker) Docker containers, because I am using them together.
+Inspiration and README.md snipplets came from [openHAB](https://github.com/openhab/openhab-docker) project, specificaly from Docker containers, because I am using them together.
 The image based on the work of the [eclipse-mosquitto](https://github.com/eclipse/mosquitto) project and their docker container.
