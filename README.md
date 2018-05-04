@@ -1,4 +1,4 @@
-# mosquitto Docker Container
+# Eclipse mosquitto MQTT Docker Container
 
 Table of Contents
 =================
