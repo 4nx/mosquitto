@@ -1,9 +1,9 @@
-# Eclipse mosquitto MQTT Docker Container
+# Eclipse Mosquitto MQTT Docker Container
 
 Table of Contents
 =================
 
-   * [mosquitto Docker Container](#mosquitto-docker-container)
+   * [Eclipse Mosquitto MQTT Docker Container](#mosquitto-docker-container)
       * [Introduction](#introduction)
       * [Image Variants](#image-variants)
       * [Usage](#usage)
@@ -18,7 +18,7 @@ Table of Contents
 
 ## Introduction
 
-This repository is for building a Docker container with eclispe mosquitto under Alpine Linux. Comments, suggestions and contributions are welcome! 
+This repository is for building a Docker container with Eclispe Mosquitto MQTT daemon under Alpine Linux. Comments, suggestions and contributions are welcome! 
 
 ## Image Variants
 
@@ -146,5 +146,5 @@ When not explicitly set, files are placed under [![Eclipse license](https://img.
 
 ## Acknowledgement
 
-Inspiration and README.md snipplets came from [openHAB](https://github.com/openhab/openhab-docker) project, specificaly from Docker containers, because I am using them together.
+Inspiration and README.md snipplets came from [openHAB](https://github.com/openhab/openhab-docker) project, specificaly from their Docker containers, because I am using them together.
 The image based on the work of the [eclipse-mosquitto](https://github.com/eclipse/mosquitto) project and their docker container.
