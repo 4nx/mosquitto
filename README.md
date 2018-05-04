@@ -58,17 +58,17 @@ mkdir -p /home/mosquitto/{config,data,log}
 
 ```SHELL
 docker run \
-        --name mosquitto \
-        --tty \
-        -p 1883:1883 \
-        -p 9001:9001 \
-        -v /etc/localtime:/etc/localtime:ro \
-        -v <path-on-your-system>:/opt/mosquitto/config \
-        -v <path-on-your-system>:/opt/mosquitto/data \
-        -v <path-on-your-system>:/opt/mosquitto/log \
-        -d \
-        --restart=always \
-        4nx/mosquitto:1.4.15-r0
+    --name mosquitto \
+    --tty \
+    -p 1883:1883 \
+    -p 9001:9001 \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v <path-on-your-system>:/opt/mosquitto/config \
+    -v <path-on-your-system>:/opt/mosquitto/data \
+    -v <path-on-your-system>:/opt/mosquitto/log \
+    -d \
+    --restart=always \
+    4nx/mosquitto:1.4.15-r0
 ```
 
 #### Running from compose-file.yml
@@ -119,10 +119,10 @@ usermod -a -G mosquitto your-user (optional)
 * Or you will choose another user to run the docker container AND passing the uid and gid to mosquitto through env
 ```
 docker run \
-(...)
---user <your-uid> \
--e USER_ID=<your-uid>
--e GROUP_ID=<your-gid>
+    (...)
+    --user <your-uid> \
+    -e USER_ID=<your-uid>
+    -e GROUP_ID=<your-gid>
 ```
 
 ## Parameters
