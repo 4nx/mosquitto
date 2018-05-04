@@ -26,7 +26,7 @@ This repository is for building a Docker container with Eclispe Mosquitto MQTT d
 
 **Version**
 
-* [``1.4.15-r0`` Stable mosquitto 1.4.15-r0 version](https://github.com/4nx/mosquitto/Dockerfile)
+* [``latest / 1.4.15-r0`` Stable mosquitto 1.4.15-r0 version](https://github.com/4nx/mosquitto/Dockerfile)
 
 **Architecture:**
 
