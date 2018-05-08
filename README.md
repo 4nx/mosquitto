@@ -76,7 +76,47 @@ docker run \
 Create the following ``docker-compose.yml`` and start the container with ``docker-compose up -d``
 
 ```YAML
-TBD
+version: '3'
+services:
+    mosquitto:
+        image: "4nxio/mosquitto:1.4.15-r0"
+        restart: always
+        volumes:
+            - "/etc/localtime:/etc/localtime:ro"
+            - "/etc/timezone:/etc/timezone:ro"
+            - "/opt/container/mosquitto/config:/opt/mosquitto/config"
+            - "/opt/container/mosquitto/data:/opt/mosquitto/data"
+            - "/opt/container/mosquitto/log:/opt/mosquitto/log"
+        ports:
+            - "1883:1883"
+            - "9001:9001"
+        tty: true
+        environment:
+            USER_ID: "1001"
+            GROUP_ID: "1001"
+```
+
+With that you will have the docker container started from the automated build image on Docker Hub. You can also build the image by yourself by checking out the Dockerfile, entrypoint.sh and creating the following ``docker-compose.yml``:
+
+```YAML
+version: '3'
+services:
+    mosquitto:
+        build: .
+        restart: always
+        volumes:
+            - "/etc/localtime:/etc/localtime:ro"
+            - "/etc/timezone:/etc/timezone:ro"
+            - "/opt/container/mosquitto/config:/opt/mosquitto/config"
+            - "/opt/container/mosquitto/data:/opt/mosquitto/data"
+            - "/opt/container/mosquitto/log:/opt/mosquitto/log"
+        ports:
+            - "1883:1883"
+            - "9001:9001"
+        tty: true
+        environment:
+            USER_ID: "1001"
+            GROUP_ID: "1001"
 ```
 
 #### Configuration of peristent data and logs
