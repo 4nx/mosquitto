@@ -118,6 +118,7 @@ services:
             USER_ID: "1001"
             GROUP_ID: "1001"
 ```
+It will also be started via ``docker-compose up -d``. But be advised that it will be build only the first time. If you want to build it later again use ``docker-compose build`` or ``docker-compose up --build``. You can check that the container is running with ``docker-compose ps``. You can stop the container with ``docker-compose stop`` and remove the images with ``docker-compose rm``. 
 
 #### Configuration of peristent data and logs
 
