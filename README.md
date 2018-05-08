@@ -1,4 +1,5 @@
 # Eclipse Mosquitto MQTT Docker Container
+[![](https://images.microbadger.com/badges/version/4nxio/mosquitto:1.4.15-r0.svg)](https://microbadger.com/images/4nxio/mosquitto:1.4.15-r0 "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/4nxio/mosquitto:1.4.15-r0.svg)](https://microbadger.com/images/4nxio/mosquitto:1.4.15-r0 "Get your own image badge on microbadger.com") 
 
 Table of Contents
 =================
