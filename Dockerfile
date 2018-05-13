@@ -1,5 +1,5 @@
 FROM alpine:3.7
-MAINTAINER Simon Krenz <frncs@systemli.org>
+MAINTAINER Simon Krenz <sk@4nx.io>
 
 LABEL Description="Eclipse Mosquitto MQTT Broker"
 
