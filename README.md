@@ -16,6 +16,9 @@ Table of Contents
       * [Environment variables](#environment-variables)
       * [Parameters](#parameters)
       * [Building the image](#building-the-image)
+      * [Additional configurations](#additional-configurartions)
+         * [Create users](#create-users)
+         * [Disable anonymous logins](#disable-anonymour-logins)
       * [License](#license)
 
 ## Introduction
@@ -194,6 +197,29 @@ usermod -a -G mosquitto your-user (optional)
 Checkout the github repository and then run these commands:
 ```
 $ docker build -t 4nx/mosquitto:1.4.15-r0 .
+```
+
+## Additional configurations
+
+You can configure much more with mosquitto. The following are some examples.
+
+### Create users
+
+Because you haven't have any users to login now you need to create at least one or use anonymous login. To do so you need to use the ``mosquitto_passwd`` command which you can use inside your running container. Get into the console via:
+```
+docker exec -it $(docker ps | grep mosquitto | cut -d" " -f 1) /bin/sh
+```
+and create the passwd file with:
+```
+mosquitto_passwd -c /opt/mosquitto/config/mosquitto.passwd openhab
+```
+You can also add additional user without the use von ``-c``.
+
+### Disable anonymous logins
+
+By default every client and user can use anonymous login to the MQTT broker and is able to publish and subscribe there. If you do not want this you can disable anonymous logins inside ``/opt/mosquitto/config/mosquitto.conf`` via:
+```
+allow_anonymous false
 ```
 
 ## License
