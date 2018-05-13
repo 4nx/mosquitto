@@ -8,6 +8,7 @@ Table of Contents
       * [Introduction](#introduction)
       * [Image Variants](#image-variants)
       * [Usage](#usage)
+         * [Create the mosquitto user](#create-the-mosquitto-user)
          * [Starting with Docker named volumes](#starting-with-docker-named-volumes)
             * [Running from command line](#running-from-command-line)
             * [Running from compose-file.yml](#running-from-compose-fileyml)
@@ -41,10 +42,21 @@ This repository is for building a Docker container with Eclispe Mosquitto MQTT d
 
 The following methods to use the container are available:
 
+### Create the mosquitto user
+
+It is recommended to create an additional user with no home and no shell to run your container:
+```
+sudo useradd -r -s /sbin/nologin mosquitto
+```
+
+You can add you regular user to the group of the mosquitto user:
+```
+sudo usermod -a -G mosquitto <user>
+```
+
 ### Starting with Docker named volumes
 
 The following three mount points have been created in the image. These volumes will survive, if you delete or upgrade your container:
-
 ```
 /opt/mosquitto/config
 /opt/mosquitto/data
@@ -52,11 +64,16 @@ The following three mount points have been created in the image. These volumes w
 ```
 
 So you should create similar folders on your host system, e.g.:
+```
+mkdir -p /opt/mosquitto/{config,data,log}
+```
 
-mkdir -p /home/mosquitto/{config,data,log}
+and change ownership to our former created mosquitto user:
+```
+chown -R mosquitto:mosquitto /opt/mosquitto
+```
 
 #### Running from command line
-
 ```SHELL
 docker run \
     --name mosquitto \
@@ -75,7 +92,6 @@ docker run \
 #### Running from compose-file.yml
 
 Create the following ``docker-compose.yml`` and start the container with ``docker-compose up -d``
-
 ```YAML
 version: '3'
 services:
@@ -98,7 +114,6 @@ services:
 ```
 
 With that you will have the docker container started from the automated build image on Docker Hub. You can also build the image by yourself by checking out the Dockerfile, entrypoint.sh and creating the following ``docker-compose.yml``:
-
 ```YAML
 version: '3'
 services:
@@ -124,7 +139,6 @@ It will also be started via ``docker-compose up -d``. But be advised that it wil
 #### Configuration of peristent data and logs
 
 After starting the container the first time you will find a configuration file within your <path>/mosquitto/config directory which you created before. Add the following:
-
 ```
 persistence true
 persistence_location /opt/mosquitto/data/
@@ -151,20 +165,20 @@ By default the mosquitto user in the container is running with:
 
 Make sure that either
 
-* You create the same user with the same uid and gid on your docker host system
-```
-groupadd -g 101 mosquitto
-useradd -u 100 -g mosquitto -r -s /sbin/nologin mosquitto
-usermod -a -G mosquitto your-user (optional)
-```
-
-* Or you will choose another user to run the docker container AND passing the uid and gid to mosquitto through env
+* You will use the former created user in the beginning AND pass the uid and gid to mosquitto through environments:
 ```
 docker run \
     (...)
     --user <your-uid> \
-    -e USER_ID=<your-uid>
-    -e GROUP_ID=<your-gid>
+    -e USER_ID=<mosquitto-uid>
+    -e GROUP_ID=<mosquitto-gid>
+```    
+
+* or you create the same user with the same uid and gid on your docker host system:
+```
+groupadd -g 101 mosquitto
+useradd -u 100 -g mosquitto -r -s /sbin/nologin mosquitto
+usermod -a -G mosquitto your-user (optional)
 ```
 
 ## Parameters
