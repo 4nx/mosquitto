@@ -2,8 +2,8 @@ services:
   - docker
 install:
   - docker build -t mosquitto .
-  - docker run -d -p 1883:1883 -e USER_ID=1000 -e GROUP_ID=1000 --name mosquitto mosquitto
+  - docker run -d --tty -p 1883:1883 -e USER_ID=1000 -e GROUP_ID=1000 --name mosquitto mosquitto
 script:
   - docker ps | grep -q mosquitto
   - docker logs mosquitto
-  - sleep 10 && nc -zvvn 127.0.0.1:1883 || exit 1  
+  - sleep 10 && nc -zvvn 127.0.0.1 1883 || exit 1  
