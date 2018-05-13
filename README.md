@@ -211,9 +211,19 @@ docker exec -it $(docker ps | grep mosquitto | cut -d" " -f 1) /bin/sh
 ```
 and create the passwd file with:
 ```
-mosquitto_passwd -c /opt/mosquitto/config/mosquitto.passwd openhab
+mosquitto_passwd -c /opt/mosquitto/config/mosquitto.passwd <new-user>
 ```
 You can also add additional user without the use von ``-c``.
+
+To activate the password file it must be added to ``/opt/mosquitto/config/mosquitto.conf`` with:
+```
+password_file /opt/mosquitto/config/mosquitto.passwd
+```
+At least change the ownership and access right for this file and restart the container:
+```
+chown mosquitto:mosquitto /opt/mosquitto/config/mosquitto.passwd
+chmod 600 /opt/mosquitto/config/mosquitto.passwd
+```
 
 ### Disable anonymous logins
 
