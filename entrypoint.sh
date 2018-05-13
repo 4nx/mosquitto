@@ -18,6 +18,7 @@ if [[ ${NEW_USER_ID} -ne ${MOSQUITTO_UID} || ${NEW_GROUP_ID} -ne ${MOSQUITTO_GID
     groupmod -g ${NEW_GROUP_ID} mosquitto
     echo "Change user id mosquitto to id ${NEW_USER_ID}"
     usermod -u ${NEW_USER_ID} --gid ${NEW_GROUP_ID} mosquitto
+    chown -R mosquitto:mosquitto /opt/mosquitto
 fi
 
 exec "$@"
