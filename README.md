@@ -19,6 +19,12 @@ Table of Contents
       * [Additional configurations](#additional-configurartions)
          * [Create users](#create-users)
          * [Disable anonymous logins](#disable-anonymour-logins)
+      * [SSL/TLS configuration](#ssl-tls-configuration)
+         * [One way TLS](#one-way-tls)
+            * [Create Certificate Authority](#create-certificate-authority)
+            * [Create server certificate](#create-server-certificate)
+            * [Sign certificate with your own CA](#sign-certifcate-with-your-own-ca)
+            * [Enable TLS configuration](#enable-tls-configuration)
       * [License](#license)
 
 ## Introduction
@@ -82,7 +88,6 @@ docker run \
     --name mosquitto \
     --tty \
     -p 1883:1883 \
-    -p 9001:9001 \
     -v /etc/localtime:/etc/localtime:ro \
     -v <path-on-your-system>:/opt/mosquitto/config \
     -v <path-on-your-system>:/opt/mosquitto/data \
@@ -109,7 +114,6 @@ services:
             - "/opt/container/mosquitto/log:/opt/mosquitto/log"
         ports:
             - "1883:1883"
-            - "9001:9001"
         tty: true
         environment:
             USER_ID: "1001"
@@ -131,7 +135,6 @@ services:
             - "/opt/container/mosquitto/log:/opt/mosquitto/log"
         ports:
             - "1883:1883"
-            - "9001:9001"
         tty: true
         environment:
             USER_ID: "1001"
@@ -187,7 +190,8 @@ usermod -a -G mosquitto your-user (optional)
 ## Parameters
 
 * `-p 1883` - the standard port of mosquitto
-* `-p 9001` - the standard tls encrypted port of mosquitto
+* `-p 8883` - the standard tls port of mosquitto: [see SSL/TLS configuration](#ssl-tls-configuration)
+* `-p 9001` - the standard websockets port of mosquitto
 * `-v /opt/mosquitto/config` - configuration directory
 * `-v /opt/mosquitto/data` - persistent data directory
 * `-v /opt/mosquitto/log` - log directory
@@ -231,6 +235,85 @@ By default every client and user can use anonymous login to the MQTT broker and 
 ```
 allow_anonymous false
 ```
+
+### Configure access rights for users
+
+You are able to configure access rights for users, which will be done inside a separate file like e.g. ``/opt/mosquitto/config/mosquitto.acl``:
+```
+user admin
+pattern readwrite #
+
+user client
+pattern read sensor/data
+
+user server
+pattern write sensor/data
+```
+The example above uses two types of entries. The first one defines the user while the second gives him the access permissions. You are  able to give users read and/or write access to specific pathes by defining them. So in productive environments it makes sense to have different users with different access rights.
+
+To activate the configuration you need to add it into the ``/opt/mosquitto/config/mosquitto.acl`` via:
+```
+acl_file /opt/mosquitto/config/mosquitto.acl
+```
+
+### SSL/TLS configuration
+
+In sensitive production environments I recommend to use TLS based transport encryption. But you should be aware that the possibility depends on your IoT infrastructure because some low cost devices may not support MQTT over TLS or their micro controller are not capable to handle the encryption. It also increases the size of the TCP streams which could be relevant for devices where every MegaByte costs money (e.g. mobile connections).
+
+#### One way TLS
+
+The configuration for the server side TLS configuration will be described.
+
+##### Create Certificate Authority
+
+If you do not plan to use your companys CA or a public one like Let's Encrypt, you can create you own certificate authority certificate and key to use them for signing later:
+```
+openssl req -new -x509 -days 3650 -extensions v3_ca -keyout ca.key -out ca.crt
+```
+You will be asked for a password which will be used to encrypt the key file and informations like country, city etc. which will be placed in the ca certificate.
+
+##### Create server certificate
+
+You should create the private key on the MQTT broker side with at least 2048 bit (better 4096) via:
+```
+openssl genrsa -out server.key 2048
+```
+After that you can generate a certificate signing request ``server.csr`` to send it to a CA or sign it by your own created:
+```
+openssl req -out server.csr -key server.key -new
+```
+You will be ask for some informations like country name, city etc. You should use correct common name in FQDN of your MQTT server, like ``mqtt.example.net``.
+
+##### Sign certificate with your own CA
+
+If you don't want to use your own CA, you can sign the former created request with:
+```
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 1825
+```
+A prompt will ask for your ca key password, will sign the request and create the server certificate.
+
+##### Enable TLS configuration
+
+Now you only need to update your ``/opt/mosquitto/config/mosquitto.conf`` to be able to use the TLS certificates:
+```
+listener 8883
+cafile /opt/mosquitto/config/ca.crt
+certfile /opt/mosquitto/config/server.crt
+keyfile /opt/mosquitto/config/server.key
+tls_version tlsv1.2
+ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
+```
+It is recommended to use ``tls_version tlsv1.2`` but if your devices won't support it you can switch to at least ``tls_version tlsv1``. From now on the broker will be accessible only via TCP port 8883. If you want to have TCP 1883 additionally without TLS you can add also:
+```
+listener 1883
+```
+Maybe you need to recreate your container to get 8883 active and don't forget to forward it via ``-p 8883:8883`` or:
+```
+ports:
+    - "8883:8883"
+    [...]
+```
+inside ``docker-compose.yml``.
 
 ## License
 
