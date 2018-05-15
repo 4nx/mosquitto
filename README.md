@@ -303,7 +303,7 @@ keyfile /opt/mosquitto/config/server.key
 tls_version tlsv1.2
 ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
 ```
-It is recommended to use ``tls_version tlsv1.2`` but if your devices won't support it you can switch to at least ``tls_version tlsv1``. From now on the broker will be accessible only via TCP port 8883. If you want to have TCP 1883 additionally without TLS you can add also:
+It is recommended to use ``tls_version tlsv1.2`` but if your devices won't support it you can switch to at least ``tls_version tlsv1``. From now on the broker will be accessible only via TCP port 8883. If you want to have TCP 1883 additionally without TLS you can also add:
 ```
 listener 1883
 ```
