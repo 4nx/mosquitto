@@ -19,7 +19,7 @@ Table of Contents
       * [Additional configurations](#additional-configurartions)
          * [Create users](#create-users)
          * [Disable anonymous logins](#disable-anonymour-logins)
-      * [SSL/TLS configuration](#ssl-tls-configuration)
+      * [TLS configuration](#tls-configuration)
          * [One way TLS](#one-way-tls)
             * [Create Certificate Authority](#create-certificate-authority)
             * [Create server certificate](#create-server-certificate)
@@ -190,7 +190,7 @@ usermod -a -G mosquitto your-user (optional)
 ## Parameters
 
 * `-p 1883` - the standard port of mosquitto
-* `-p 8883` - the standard tls port of mosquitto: [see SSL/TLS configuration](#ssl-tls-configuration)
+* `-p 8883` - the standard tls port of mosquitto: [see TLS configuration](#tls-configuration)
 * `-p 9001` - the standard websockets port of mosquitto
 * `-v /opt/mosquitto/config` - configuration directory
 * `-v /opt/mosquitto/data` - persistent data directory
@@ -256,7 +256,7 @@ To activate the configuration you need to add it into the ``/opt/mosquitto/confi
 acl_file /opt/mosquitto/config/mosquitto.acl
 ```
 
-### SSL/TLS configuration
+### TLS configuration
 
 In sensitive production environments I recommend to use TLS based transport encryption. But you should be aware that the possibility depends on your IoT infrastructure because some low cost devices may not support MQTT over TLS or their micro controller are not capable to handle the encryption. It also increases the size of the TCP streams which could be relevant for devices where every MegaByte costs money (e.g. mobile connections).
 
