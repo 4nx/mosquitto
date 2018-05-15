@@ -26,6 +26,7 @@ Table of Contents
             * [Sign certificate with your own CA](#sign-certifcate-with-your-own-ca)
             * [Enable TLS configuration](#enable-tls-configuration)
       * [License](#license)
+      * [Acknowledgement](#acknowledgement)
 
 ## Introduction
 
