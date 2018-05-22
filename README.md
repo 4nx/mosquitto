@@ -64,7 +64,7 @@ You can add you regular user to the group of the mosquitto user:
 sudo usermod -a -G mosquitto <user>
 ```
 
-### Starting with Docker named volumes
+### Starting with Docker bind mounts
 
 The following three mount points have been created in the image. These volumes will survive, if you delete or upgrade your container:
 ```
@@ -83,16 +83,43 @@ and change ownership to our former created mosquitto user:
 chown -R mosquitto:mosquitto /opt/mosquitto
 ```
 
+### Starting with Docker volumes
+
+Instead of using bind mounts you can also use volumes which is the recommended mechanism to use persistent data because it don't depend on the directory structure of the host machine. That means you can use them also on Windows machines in the same way. First you need to create the volumes on your host:
+```
+docker volume create mosquitto-config
+docker volume create mosquitto-data
+docker volume create mosquitto-log
+```
+Those volumes will be placed e.g. within ``/var/lib/docker/volumes`` or the corresponding standard docker path on you system.
+
 #### Running from command line
+
+Starting with bind mounts:
 ```SHELL
 docker run \
     --name mosquitto \
     --tty \
     -p 1883:1883 \
     -v /etc/localtime:/etc/localtime:ro \
-    -v <path-on-your-system>:/opt/mosquitto/config \
-    -v <path-on-your-system>:/opt/mosquitto/data \
-    -v <path-on-your-system>:/opt/mosquitto/log \
+    -v /opt/mosquitto/config:/opt/mosquitto/config \
+    -v /opt/mosquitto/data:/opt/mosquitto/data \
+    -v /opt/mosquitto/logs:/opt/mosquitto/log \
+    -d \
+    --restart=always \
+    4nx/mosquitto:1.4.15-r0
+```
+
+or with volumes:
+```SHELL
+docker run \
+    --name mosquitto \
+    --tty \
+    -p 1883:1883 \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v mosquitto-config:/opt/mosquitto/config \
+    -v mosquitto-data:/opt/mosquitto/data \
+    -v mosquitto-log:/opt/mosquitto/log \
     -d \
     --restart=always \
     4nx/mosquitto:1.4.15-r0
@@ -100,7 +127,7 @@ docker run \
 
 #### Running from compose-file.yml
 
-Create the following ``docker-compose.yml`` and start the container with ``docker-compose up -d``
+Create the following ``docker-compose.yml`` for bind mounts and start the container with ``docker-compose up -d``:
 ```YAML
 version: '3'
 services:
@@ -110,15 +137,44 @@ services:
         volumes:
             - "/etc/localtime:/etc/localtime:ro"
             - "/etc/timezone:/etc/timezone:ro"
-            - "/opt/container/mosquitto/config:/opt/mosquitto/config"
-            - "/opt/container/mosquitto/data:/opt/mosquitto/data"
-            - "/opt/container/mosquitto/log:/opt/mosquitto/log"
+            - "/opt/mosquitto/config:/opt/mosquitto/config"
+            - "/opt/mosquitto/data:/opt/mosquitto/data"
+            - "/opt/mosquitto/log:/opt/mosquitto/log"
         ports:
             - "1883:1883"
         tty: true
         environment:
             USER_ID: "1001"
             GROUP_ID: "1001"
+```
+
+or with volumes like the following and start the container also with ``docker-compose up -d``:
+```YAML
+version: '3'
+services:
+    mosquitto:
+        image: "4nxio/mosquitto:1.4.15-r0"
+        restart: always
+        volumes:
+            - "/etc/localtime:/etc/localtime:ro"
+            - "/etc/timezone:/etc/timezone:ro"
+            - "mosquitto-config:/opt/mosquitto/config"
+            - "mosquitto-data:/opt/mosquitto/data"
+            - "mosquitto-log:/opt/mosquitto/log"
+        ports:
+            - "1883:1883"
+        tty: true
+        environment:
+            USER_ID: "1001"
+            GROUP_ID: "1001"
+            
+volumes:
+    mosquitto-config:
+        external: true
+    mosquitto-data:
+        external: true
+    mosquitto-log:
+        external: true
 ```
 
 With that you will have the docker container started from the automated build image on Docker Hub. You can also build the image by yourself by checking out the Dockerfile, entrypoint.sh and creating the following ``docker-compose.yml``:
