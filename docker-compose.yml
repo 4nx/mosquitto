@@ -1,7 +1,7 @@
 version: '3'
 services:
     mosquitto:
-        image: "4nxio/mosquitto:1.4.15-r0"
+        build: .
         restart: always
         volumes:
             - "/etc/localtime:/etc/localtime:ro"
