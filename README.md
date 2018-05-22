@@ -64,16 +64,20 @@ You can add you regular user to the group of the mosquitto user:
 sudo usermod -a -G mosquitto <user>
 ```
 
-### Starting with Docker bind mounts
+### Starting the container
 
-The following three mount points have been created in the image. These volumes will survive, if you delete or upgrade your container:
+Now you can start a container with prebuild images or by building it on your own. But first of all you need to decide whether you use [``bind mounts``](https://docs.docker.com/storage/bind-mounts/) or [``volumes``](https://docs.docker.com/storage/volumes/). Both possibilities are described below.
+
+The following three mount points have been created in the image. Files in there should be persistent and will survive, if you delete or upgrade your container:
 ```
 /opt/mosquitto/config
 /opt/mosquitto/data
 /opt/mosquitto/log
 ```
 
-So you should create similar folders on your host system, e.g.:
+#### Create Docker bind mounts
+
+You should create similar folders on your host system if you want to use ``bind mounts``, e.g.:
 ```
 mkdir -p /opt/mosquitto/{config,data,log}
 ```
@@ -83,9 +87,9 @@ and change ownership to our former created mosquitto user:
 chown -R mosquitto:mosquitto /opt/mosquitto
 ```
 
-### Starting with Docker volumes
+#### Create Docker volumes
 
-Instead of using bind mounts you can also use volumes which is the recommended mechanism to use persistent data because it don't depend on the directory structure of the host machine. That means you can use them also on Windows machines in the same way. First you need to create the volumes on your host:
+Instead of using ``bind mounts`` you can also use ``volumes`` which is the recommended mechanism to use persistent data because it don't depend on the directory structure of the host machine. That means you can use them also on Windows machines in the same way. First you need to create the volumes on your host:
 ```
 docker volume create mosquitto-config
 docker volume create mosquitto-data
@@ -127,7 +131,7 @@ docker run \
 
 #### Running from compose-file.yml
 
-Create the following ``docker-compose.yml`` for bind mounts and start the container with ``docker-compose up -d``:
+Create the following ``docker-compose.yml`` for ``bind mounts`` and start the container with ``docker-compose up -d``:
 ```YAML
 version: '3'
 services:
@@ -148,7 +152,7 @@ services:
             GROUP_ID: "1001"
 ```
 
-or with volumes like the following and start the container also with ``docker-compose up -d``:
+or with ``volumes`` like the following and start the container also with ``docker-compose up -d``:
 ```YAML
 version: '3'
 services:
@@ -187,9 +191,9 @@ services:
         volumes:
             - "/etc/localtime:/etc/localtime:ro"
             - "/etc/timezone:/etc/timezone:ro"
-            - "/opt/container/mosquitto/config:/opt/mosquitto/config"
-            - "/opt/container/mosquitto/data:/opt/mosquitto/data"
-            - "/opt/container/mosquitto/log:/opt/mosquitto/log"
+            - "/opt/mosquitto/config:/opt/mosquitto/config"
+            - "/opt/mosquitto/data:/opt/mosquitto/data"
+            - "/opt/mosquitto/log:/opt/mosquitto/log"
         ports:
             - "1883:1883"
         tty: true
@@ -201,7 +205,7 @@ It will also be started via ``docker-compose up -d``. But be advised that it wil
 
 #### Configuration of peristent data and logs
 
-After starting the container the first time you will find a configuration file within your <path>/mosquitto/config directory which you created before. Add the following:
+After starting the container the first time you will find a configuration file ``mosquitto.conf`` within your ``/opt/mosquitto/config`` or ``/var/lib/docker/volumes/mosquitto-config/_data`` directory which you created before. Add the following:
 ```
 persistence true
 persistence_location /opt/mosquitto/data/
