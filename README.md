@@ -98,7 +98,7 @@ docker volume create mosquitto-config
 docker volume create mosquitto-data
 docker volume create mosquitto-log
 ```
-Those volumes will be placed e.g. within ``/var/lib/docker/volumes`` or the corresponding standard docker path on you system.
+Those volumes will be placed e.g. within ``/var/lib/docker/volumes`` or the corresponding standard docker path on your system.
 
 #### Running from command line
 
