@@ -41,7 +41,7 @@ This repository is for building a Docker container with Eclispe Mosquitto MQTT d
 
 **Version**
 
-* [``latest / 1.4.15-r0`` Stable mosquitto 1.4.15-r0 version](https://github.com/4nx/mosquitto/blob/master/Dockerfile)
+* [``latest / 1.4.15-r3`` Stable mosquitto 1.4.15-r3 version](https://github.com/4nx/mosquitto/blob/master/Dockerfile)
 
 **Architecture:**
 
@@ -49,7 +49,7 @@ This repository is for building a Docker container with Eclispe Mosquitto MQTT d
 
 **Distributions:**
 
-* ``alpine`` for alpine 3.7
+* ``alpine`` for alpine 3.8
 
 ## Usage
 
