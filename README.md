@@ -114,7 +114,7 @@ docker run \
     -v /opt/mosquitto/logs:/opt/mosquitto/log \
     -d \
     --restart=always \
-    4nx/mosquitto:1.4.15-r0
+    4nxio/mosquitto:1.4.15-r0
 ```
 
 or with volumes:
@@ -129,10 +129,10 @@ docker run \
     -v mosquitto-log:/opt/mosquitto/log \
     -d \
     --restart=always \
-    4nx/mosquitto:1.4.15-r0
+    4nxio/mosquitto:1.4.15-r0
 ```
 
-#### Running from compose-file.yml
+#### Running with docker compose
 
 Create the following ``docker-compose.yml`` for ``bind mounts`` and start the container with ``docker-compose up -d``:
 ```YAML
@@ -204,7 +204,7 @@ services:
             USER_ID: "1001"
             GROUP_ID: "1001"
 ```
-It will also be started via ``docker-compose up -d``. But be advised that it will be build only the first time. If you want to build it later again use ``docker-compose build`` or ``docker-compose up --build``. You can check that the container is running with ``docker-compose ps``. You can stop the container with ``docker-compose stop`` and remove the images with ``docker-compose rm``. 
+It will also be started via ``docker-compose up -d``. But be advised that it will be build only the first time. If you want to build it later again use ``docker-compose build`` or ``docker-compose up --build``. You can check that the container is running with ``docker-compose ps``. You can stop the container with ``docker-compose stop`` and remove the container with ``docker-compose rm``. 
 
 #### Configuration of peristent data and logs
 
