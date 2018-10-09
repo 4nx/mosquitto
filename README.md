@@ -37,7 +37,7 @@ This repository is for building a Docker container with Eclispe Mosquitto MQTT d
 
 ## Image Variants
 
-``4nx/mosquitto:<mosquitto-version>``
+``4nxio/mosquitto:<mosquitto-version>``
 
 **Version**
 
