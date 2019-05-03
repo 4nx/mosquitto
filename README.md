@@ -1,8 +1,8 @@
 # Eclipse Mosquitto MQTT Docker Container
 [![Build Status](https://travis-ci.org/4nx/mosquitto.svg?branch=master)](https://travis-ci.org/4nx/mosquitto) 
 [![docker pulls](https://img.shields.io/docker/pulls/4nxio/mosquitto.svg)](https://hub.docker.com/r/4nxio/mosquitto/)
-[![](https://images.microbadger.com/badges/version/4nxio/mosquitto:1.5.6-r0.svg)](https://microbadger.com/images/4nxio/mosquitto:1.5.6-r0 "Get your own version badge on microbadger.com") 
-[![](https://images.microbadger.com/badges/image/4nxio/mosquitto:1.4.15-r4.svg)](https://microbadger.com/images/4nxio/mosquitto:1.4.15-r4 "Get your own image badge on microbadger.com") 
+[![1.5.6-r0](https://images.microbadger.com/badges/version/4nxio/mosquitto:1.5.6-r0.svg)](https://microbadger.com/images/4nxio/mosquitto:1.5.6-r0 "Get your own version badge on microbadger.com") 
+[![1.4.15-r4](https://images.microbadger.com/badges/image/4nxio/mosquitto:1.4.15-r4.svg)](https://microbadger.com/images/4nxio/mosquitto:1.4.15-r4 "Get your own image badge on microbadger.com") 
 
 Table of Contents
 =================
