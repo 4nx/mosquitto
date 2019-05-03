@@ -43,14 +43,6 @@ This repository is for building a Docker container with Eclispe Mosquitto MQTT d
 
 * [``latest / 1.4.15-r3`` Stable mosquitto 1.4.15-r3 version](https://github.com/4nx/mosquitto/blob/master/Dockerfile)
 
-**Architecture:**
-
-* ``amd64`` for most desktop computer (e.g. x64, x86-64, x86_64)
-
-**Distributions:**
-
-* ``alpine`` for alpine 3.8
-
 ## Usage
 
 The following methods to use the container are available:
@@ -114,7 +106,7 @@ docker run \
     -v /opt/mosquitto/logs:/opt/mosquitto/log \
     -d \
     --restart=always \
-    4nxio/mosquitto:1.4.15-r0
+    4nxio/mosquitto:1.5.6-r0
 ```
 
 or with volumes:
@@ -129,7 +121,7 @@ docker run \
     -v mosquitto-log:/opt/mosquitto/log \
     -d \
     --restart=always \
-    4nxio/mosquitto:1.4.15-r0
+    4nxio/mosquitto:1.5.6-r0
 ```
 
 #### Running with docker compose
@@ -139,7 +131,7 @@ Create the following ``docker-compose.yml`` for ``bind mounts`` and start the co
 version: '3'
 services:
     mosquitto:
-        image: "4nxio/mosquitto:1.4.15-r0"
+        image: "4nxio/mosquitto:1.5.6-r0"
         restart: always
         volumes:
             - "/etc/localtime:/etc/localtime:ro"
@@ -160,7 +152,7 @@ or with ``volumes`` like the following and start the container also with ``docke
 version: '3'
 services:
     mosquitto:
-        image: "4nxio/mosquitto:1.4.15-r0"
+        image: "4nxio/mosquitto:1.5.6-r0"
         restart: always
         volumes:
             - "/etc/localtime:/etc/localtime:ro"
@@ -264,7 +256,7 @@ usermod -a -G mosquitto your-user (optional)
 
 Checkout the github repository and then run these commands:
 ```
-$ docker build -t 4nx/mosquitto:1.4.15-r0 .
+$ docker build -t 4nx/mosquitto:1.5.6-r0 .
 ```
 
 ## Additional configurations
