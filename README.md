@@ -276,7 +276,7 @@ and create the passwd file with:
 ```
 mosquitto_passwd -c /opt/mosquitto/config/mosquitto.passwd <new-user>
 ```
-You can also add additional user without the use von ``-c``.
+You can also add additional user without the use of ``-c``.
 
 To activate the password file it must be added to ``/opt/mosquitto/config/mosquitto.conf`` with:
 ```
