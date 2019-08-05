@@ -3,7 +3,7 @@ services:
     mosquitto:
         container_name: mosquitto
         hostname: mosquitto
-        image: "4nxio/mosquitto:latest"
+        image: "4nxio/mosquitto:1.4.15-r4"
         restart: always
         tty: true
         environment:
